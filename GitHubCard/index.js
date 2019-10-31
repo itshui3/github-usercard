@@ -3,6 +3,32 @@
            https://api.github.com/users/<your name>
 */
 
+axios.get("https://api.github.com/users/itshui3")
+  .then(response => {
+    console.log(response);
+  })
+  
+function makeCard(obj) {
+  const cont = document.createElement("div");
+  const img = document.createElement("img");
+  const textDiv = document.createElement("div");
+  const fullName = document.createElement("h1");
+  const handle = document.createElement("h2");
+  const location = document.createElement("p");
+  const profileUrl = document.createElement("p");
+  const followers = document.createElement("p");
+  const following = document.createElement("p");
+  const bio = document.createElement("p");
+
+  img.src = obj.data.avatar_url;
+  fullName.textContent = obj.data.name;
+  handle.textContent = obj.data.login;
+  location.textContent = obj.data.location;
+  profileUrl.textContent = obj.data.html_url;
+  followers.textContent = obj.data.followers;
+  following.textContent = obj.data.following;
+  bio.textContent = obj.data.bio;
+}
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
