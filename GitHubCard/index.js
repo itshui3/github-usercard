@@ -3,6 +3,48 @@
            https://api.github.com/users/<your name>
 */
 
+axios.get("https://api.github.com/users/itshui3")
+  .then(response => {
+    document.querySelector(".cards").append(makeMyCard(response));
+  })
+
+function makeMyCard(obj) {
+  const cont = document.createElement("div");
+  const img = document.createElement("img");
+  const textDiv = document.createElement("div");
+  const fullName = document.createElement("h1");
+  const handle = document.createElement("h2");
+  const location = document.createElement("p");
+  const profileUrl = document.createElement("p");
+  const followers = document.createElement("p");
+  const following = document.createElement("p");
+  const bio = document.createElement("p");
+
+  img.src = obj.data.avatar_url;
+  fullName.textContent = obj.data.name;
+  handle.textContent = obj.data.login;
+  location.textContent = `Location: ${obj.data.location}`;
+  profileUrl.textContent = `Profile: ${obj.data.html_url}`;
+  followers.textContent = `Followers: ${obj.data.followers}`;
+  following.textContent = `Following: ${obj.data.following}`;
+  bio.textContent = `Bio: ${obj.data.bio}`;
+
+  cont.classList.add("card");
+  fullName.classList.add("name");
+  handle.classList.add("username");
+
+  cont.append(img);
+  cont.append(textDiv);
+  textDiv.append(fullName);
+  textDiv.append(handle);
+  textDiv.append(location);
+  textDiv.append(profileUrl);
+  textDiv.append(followers);
+  textDiv.append(following);
+  textDiv.append(bio);
+
+  return cont;
+}
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
    data in order to use it to build your component function 
@@ -24,7 +66,60 @@
           user, and adding that card to the DOM.
 */
 
+
+// axios.get("https://api.github.com/users/itshui3")
 const followersArray = [];
+
+// followersArray.push("https://api.github.com/users/sadamexx");
+// followersArray.push("https://api.github.com/users/redfordch1");
+// followersArray.push("https://api.github.com/users/PCDSandwichMan");
+// followersArray.push("https://api.github.com/users/AaronShawnSoler");
+// followersArray.push("https://api.github.com/users/codeOfTheFuture");
+
+axios.get("https://api.github.com/users/itshui3/followers")
+  .then( response => {
+    console.log(response);
+    const items = Object.keys(response.data);
+    console.log(items);
+    console.log(response.data[items]);
+    items.forEach( (elem) => {
+      console.log(response.data[elem].url);
+      axios.get(response.data[elem].url)
+        .then( response => {
+          document.querySelector(".cards").append(makeMyCard(response));
+        })
+        .catch( error => {
+          console.log(error);
+        });
+    });
+
+    // response.forEach( elem => {
+    //   console.log("hi");
+    //   axios.get(elem.url)
+    //     .then( response => {
+    //       console.log(response);
+    //       document.querySelector(".cards").append(makeMyCard(response));
+    //     })
+    //     .catch( error => {
+    //       console.log(error);
+    //     });
+    // });
+
+  })
+  .catch( error => {
+    console.log(error);
+  });
+
+
+// followersArray.forEach( (elem) => {
+//   axios.get(elem)
+//   .then(response => {
+//     document.querySelector(".cards").append(makeMyCard(response));
+//   });
+// });
+
+
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
