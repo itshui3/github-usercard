@@ -5,11 +5,10 @@
 
 axios.get("https://api.github.com/users/itshui3")
   .then(response => {
-    console.log(response);
-    document.querySelector(".cards").append(makeCard(response));
+    document.querySelector(".cards").append(makeMyCard(response));
   })
-  
-function makeCard(obj) {
+
+function makeMyCard(obj) {
   const cont = document.createElement("div");
   const img = document.createElement("img");
   const textDiv = document.createElement("div");
@@ -24,11 +23,11 @@ function makeCard(obj) {
   img.src = obj.data.avatar_url;
   fullName.textContent = obj.data.name;
   handle.textContent = obj.data.login;
-  location.textContent = obj.data.location;
-  profileUrl.textContent = obj.data.html_url;
-  followers.textContent = obj.data.followers;
-  following.textContent = obj.data.following;
-  bio.textContent = obj.data.bio;
+  location.textContent = `Location: ${obj.data.location}`;
+  profileUrl.textContent = `Profile: ${obj.data.html_url}`;
+  followers.textContent = `Followers: ${obj.data.followers}`;
+  following.textContent = `Following: ${obj.data.following}`;
+  bio.textContent = `Bio: ${obj.data.bio}`;
 
   cont.classList.add("card");
   fullName.classList.add("name");
@@ -67,7 +66,41 @@ function makeCard(obj) {
           user, and adding that card to the DOM.
 */
 
+// axios.get()
+//   .then(response => {
+//     response.data.forEach( (elem) => {
+//       followersArray.push(elem.url);
+//     });
+//   });
+
+
+
 const followersArray = [];
+axios.get("https://api.github.com/users/itshui3/followers")
+  .then(response => {
+    const arr = Array.from(response.data);
+    for (let i = 0; i < arr.length; i++) {
+      followersArray.push(arr[i].url);
+    }
+  })
+
+console.log(followersArray);
+let arr = [1, 2, 3, 4];
+console.log(arr);
+axios.get(followersArray[0][0])
+  .then(response => {
+    document.querySelector(".cards").append(makeMyCard(response));
+  });
+
+// for (let i = 0; i < followersArray.length; i++) {
+//   axios.get(followersArray[i])
+//     .then(response => {
+//       document.querySelector(".card").append(makeMyCard(reponse));
+//     });
+
+// }
+
+
 
 /* Step 3: Create a function that accepts a single object as its only argument,
           Using DOM methods and properties, create a component that will return the following DOM element:
