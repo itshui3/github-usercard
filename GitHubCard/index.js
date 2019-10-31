@@ -70,27 +70,53 @@ function makeMyCard(obj) {
 // axios.get("https://api.github.com/users/itshui3")
 const followersArray = [];
 
-followersArray.push("https://api.github.com/users/sadamexx");
-followersArray.push("https://api.github.com/users/redfordch1");
-followersArray.push("https://api.github.com/users/PCDSandwichMan");
-followersArray.push("https://api.github.com/users/AaronShawnSoler");
-followersArray.push("https://api.github.com/users/codeOfTheFuture");
+// followersArray.push("https://api.github.com/users/sadamexx");
+// followersArray.push("https://api.github.com/users/redfordch1");
+// followersArray.push("https://api.github.com/users/PCDSandwichMan");
+// followersArray.push("https://api.github.com/users/AaronShawnSoler");
+// followersArray.push("https://api.github.com/users/codeOfTheFuture");
 
-console.log(followersArray);
+axios.get("https://api.github.com/users/itshui3/followers")
+  .then( response => {
+    console.log(response);
+    const items = Object.keys(response.data);
+    console.log(items);
+    console.log(response.data[items]);
+    items.forEach( (elem) => {
+      console.log(response.data[elem].url);
+      axios.get(response.data[elem].url)
+        .then( response => {
+          document.querySelector(".cards").append(makeMyCard(response));
+        })
+        .catch( error => {
+          console.log(error);
+        });
+    });
 
-// axios.get("https://api.github.com/users/itshui3")
-//   .then(response => {
-//     document.querySelector(".cards").append(makeMyCard(response));
-//   })
+    // response.forEach( elem => {
+    //   console.log("hi");
+    //   axios.get(elem.url)
+    //     .then( response => {
+    //       console.log(response);
+    //       document.querySelector(".cards").append(makeMyCard(response));
+    //     })
+    //     .catch( error => {
+    //       console.log(error);
+    //     });
+    // });
 
-followersArray.forEach( (elem) => {
-  axios.get(elem)
-  .then(response => {
-    document.querySelector(".cards").append(makeMyCard(response));
+  })
+  .catch( error => {
+    console.log(error);
   });
 
 
-});
+// followersArray.forEach( (elem) => {
+//   axios.get(elem)
+//   .then(response => {
+//     document.querySelector(".cards").append(makeMyCard(response));
+//   });
+// });
 
 
 
