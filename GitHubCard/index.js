@@ -66,39 +66,32 @@ function makeMyCard(obj) {
           user, and adding that card to the DOM.
 */
 
-// axios.get()
-//   .then(response => {
-//     response.data.forEach( (elem) => {
-//       followersArray.push(elem.url);
-//     });
-//   });
 
-
-
+// axios.get("https://api.github.com/users/itshui3")
 const followersArray = [];
-axios.get("https://api.github.com/users/itshui3/followers")
-  .then(response => {
-    const arr = Array.from(response.data);
-    for (let i = 0; i < arr.length; i++) {
-      followersArray.push(arr[i].url);
-    }
-  })
+
+followersArray.push("https://api.github.com/users/sadamexx");
+followersArray.push("https://api.github.com/users/redfordch1");
+followersArray.push("https://api.github.com/users/PCDSandwichMan");
+followersArray.push("https://api.github.com/users/AaronShawnSoler");
+followersArray.push("https://api.github.com/users/codeOfTheFuture");
 
 console.log(followersArray);
-let arr = [1, 2, 3, 4];
-console.log(arr);
-axios.get(followersArray[0][0])
+
+// axios.get("https://api.github.com/users/itshui3")
+//   .then(response => {
+//     document.querySelector(".cards").append(makeMyCard(response));
+//   })
+
+followersArray.forEach( (elem) => {
+  axios.get(elem)
   .then(response => {
     document.querySelector(".cards").append(makeMyCard(response));
   });
 
-// for (let i = 0; i < followersArray.length; i++) {
-//   axios.get(followersArray[i])
-//     .then(response => {
-//       document.querySelector(".card").append(makeMyCard(reponse));
-//     });
 
-// }
+});
+
 
 
 
