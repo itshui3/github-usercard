@@ -6,6 +6,7 @@
 axios.get("https://api.github.com/users/itshui3")
   .then(response => {
     console.log(response);
+    document.querySelector(".cards").append(makeCard(response));
   })
   
 function makeCard(obj) {
@@ -28,6 +29,22 @@ function makeCard(obj) {
   followers.textContent = obj.data.followers;
   following.textContent = obj.data.following;
   bio.textContent = obj.data.bio;
+
+  cont.classList.add("card");
+  fullName.classList.add("name");
+  handle.classList.add("username");
+
+  cont.append(img);
+  cont.append(textDiv);
+  textDiv.append(fullName);
+  textDiv.append(handle);
+  textDiv.append(location);
+  textDiv.append(profileUrl);
+  textDiv.append(followers);
+  textDiv.append(following);
+  textDiv.append(bio);
+
+  return cont;
 }
 /* Step 2: Inspect and study the data coming back, this is YOUR 
    github info! You will need to understand the structure of this 
